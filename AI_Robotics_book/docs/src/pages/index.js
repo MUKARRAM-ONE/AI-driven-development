@@ -1,12 +1,31 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import clsx from 'clsx';
 import styles from './index.module.css';
 
 export default function Home() {
+  const [isOpen, setIsOpen] = useState(false);
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [message, setMessage] = useState('');
+
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add(styles.reveal);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, {threshold: 0.12});
+
+    document.querySelectorAll('.revealOnScroll').forEach(el => observer.observe(el));
+
+    return () => observer.disconnect();
+  }, []);
   return (
     <main>
       {/* Hero Section */}
-      <section className={styles.hero}>
+      <section className={clsx(styles.hero, 'revealOnScroll')}>
         <div className={styles.heroContent}>
           <h1 className={styles.title}>Physical AI & Humanoid Robotics</h1>
           <p className={styles.subtitle}>
@@ -24,35 +43,35 @@ export default function Home() {
       </section>
 
       {/* Features Section */}
-      <section className={styles.features}>
+      <section className={clsx(styles.features, 'revealOnScroll')}>
         <h2>What You'll Learn</h2>
         <div className={styles.featureGrid}>
-          <div className={styles.featureCard}>
+          <div className={clsx(styles.featureCard, 'revealOnScroll')}>
             <div className={styles.featureIcon}>🤖</div>
             <h3>ROS 2 Fundamentals</h3>
             <p>Master the Robot Operating System with hands-on examples and real-world applications.</p>
           </div>
-          <div className={styles.featureCard}>
+          <div className={clsx(styles.featureCard, 'revealOnScroll')}>
             <div className={styles.featureIcon}>🎮</div>
             <h3>Digital Twins</h3>
             <p>Build virtual representations of robots using Gazebo and Isaac Sim.</p>
           </div>
-          <div className={styles.featureCard}>
+          <div className={clsx(styles.featureCard, 'revealOnScroll')}>
             <div className={styles.featureIcon}>🧠</div>
             <h3>AI Integration</h3>
             <p>Implement intelligent behaviors using machine learning and planning algorithms.</p>
           </div>
-          <div className={styles.featureCard}>
+          <div className={clsx(styles.featureCard, 'revealOnScroll')}>
             <div className={styles.featureIcon}>👁️</div>
             <h3>Vision & Language</h3>
             <p>Integrate VLMs and LLMs to enable robots to see, understand, and reason.</p>
           </div>
-          <div className={styles.featureCard}>
+          <div className={clsx(styles.featureCard, 'revealOnScroll')}>
             <div className={styles.featureIcon}>📚</div>
             <h3>13 Chapters</h3>
             <p>Comprehensive curriculum from basics to advanced robotics concepts.</p>
           </div>
-          <div className={styles.featureCard}>
+          <div className={clsx(styles.featureCard, 'revealOnScroll')}>
             <div className={styles.featureIcon}>💻</div>
             <h3>Hands-On Code</h3>
             <p>Learn by doing with complete code examples and interactive tutorials.</p>
@@ -61,10 +80,10 @@ export default function Home() {
       </section>
 
       {/* Modules Section */}
-      <section className={styles.modules}>
+      <section className={clsx(styles.modules, 'revealOnScroll')}>
         <h2>Course Structure</h2>
         <div className={styles.moduleGrid}>
-          <div className={styles.module}>
+          <div className={clsx(styles.module, 'revealOnScroll')}>
             <h3>Module 1</h3>
             <h4>ROS 2 Fundamentals</h4>
             <ul>
@@ -73,7 +92,7 @@ export default function Home() {
               <li>Chapter 3: Python Integration</li>
             </ul>
           </div>
-          <div className={styles.module}>
+          <div className={clsx(styles.module, 'revealOnScroll')}>
             <h3>Module 2</h3>
             <h4>Digital Twin & Simulation</h4>
             <ul>
@@ -84,7 +103,7 @@ export default function Home() {
               <li>Chapter 8: Isaac Sim Intro</li>
             </ul>
           </div>
-          <div className={styles.module}>
+          <div className={clsx(styles.module, 'revealOnScroll')}>
             <h3>Module 3</h3>
             <h4>AI-Robot Brain</h4>
             <ul>
@@ -92,7 +111,7 @@ export default function Home() {
               <li>Chapter 10: Nav2 Path Planning</li>
             </ul>
           </div>
-          <div className={styles.module}>
+          <div className={clsx(styles.module, 'revealOnScroll')}>
             <h3>Module 4</h3>
             <h4>Vision Language Models</h4>
             <ul>
@@ -105,7 +124,7 @@ export default function Home() {
       </section>
 
       {/* CTA Section */}
-      <section className={styles.cta}>
+      <section className={clsx(styles.cta, 'revealOnScroll')}>
         <h2>Ready to Build Intelligent Robots?</h2>
         <p>Start with the fundamentals and progress to building your own autonomous systems.</p>
         <a href="/AI_Robotics_book/docs/01-intro-to-ros2" className={clsx(styles.button, styles.buttonLarge)}>
@@ -114,7 +133,7 @@ export default function Home() {
       </section>
 
       {/* Contact Section */}
-      <section className={styles.contact}>
+      <section className={clsx(styles.contact, 'revealOnScroll')}>
         <h2>Contact</h2>
         <p>If you'd like to get in touch, reach out via GitHub or LinkedIn — or send a quick message:</p>
         <div className={styles.contactButtons}>

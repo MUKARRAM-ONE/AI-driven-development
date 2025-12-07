@@ -66,29 +66,24 @@ const config = {
             label: 'Textbook',
           },
           {
-            to: '/docs/category/module-1-ros-2',
+            to: '/AI_Robotics_book/docs/category/module-1-ros-2',
             label: 'Module 1: ROS 2',
             position: 'left'
           },
           {
-            to: '/docs/category/module-2-digital-twin',
+            to: '/AI_Robotics_book/docs/category/module-2-digital-twin',
             label: 'Module 2: Digital Twin',
             position: 'left'
           },
           {
-            to: '/docs/category/module-3-ai-robot-brain',
+            to: '/AI_Robotics_book/docs/category/module-3-ai-robot-brain',
             label: 'Module 3: AI-Robot Brain',
             position: 'left'
           },
           {
-            to: '/docs/category/module-4-vla',
+            to: '/AI_Robotics_book/docs/category/module-4-vla',
             label: 'Module 4: VLA',
             position: 'left'
-          },
-          {
-            href: 'https://github.com/MUKARRAM-ONE/AI-driven-development/tree/main/AI_Robotics_book',
-            label: 'GitHub',
-            position: 'right',
           },
           {
             label: 'Contact',
@@ -100,7 +95,7 @@ const config = {
               },
               {
                 label: 'LinkedIn',
-                href: 'https://www.linkedin.com/in/your-linkedin',
+                href: 'https://www.linkedin.com/in/mukarram-razzaq-0146572ba/',
               },
             ],
           },
@@ -114,7 +109,7 @@ const config = {
             items: [
               {
                 label: 'Introduction',
-                to: '/docs/01-intro-to-ros2',
+                to: '/AI_Robotics_book/docs/01-intro-to-ros2',
               },
             ],
           },
