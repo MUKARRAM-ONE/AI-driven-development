@@ -1,114 +1,113 @@
-# Implementation Plan: [FEATURE]
+# Book Development Plan
 
-**Branch**: `[###-feature-name]` | **Date**: [DATE] | **Spec**: [link]
-**Input**: Feature specification from `/specs/[###-feature-name]/spec.md`
+## Book Structure
 
-**Note**: This template is filled in by the `/sp.plan` command. See `.specify/templates/commands/plan.md` for the execution workflow.
+### Module 1: The Robotic Nervous System (ROS 2)
+**Duration**: Weeks 3-5 of course
+**Chapters**: 4
 
-## Summary
+1. Introduction to ROS 2
+   - Evolution from ROS 1
+   - DDS middleware architecture
+   - Installation and setup
+   
+2. Nodes, Topics, and Services
+   - Publisher-subscriber pattern
+   - Service calls
+   - Action servers
+   
+3. Python Integration with rclpy
+   - Creating custom nodes
+   - Parameter management
+   - Launch files
+   
+4. URDF for Humanoids
+   - Robot description format
+   - Joints and links
+   - Sensor integration
 
-[Extract from feature spec: primary requirement + technical approach from research]
+### Module 2: The Digital Twin (Gazebo & Unity)
+**Duration**: Weeks 6-7
+**Chapters**: 3
 
-## Technical Context
+5. Gazebo Simulation Fundamentals
+   - Physics engines
+   - World files
+   - Model spawning
+   
+6. Unity Integration for Robotics
+   - High-fidelity rendering
+   - Human-robot interaction
+   - Real-time visualization
+   
+7. Sensor Simulation
+   - LiDAR implementation
+   - Depth cameras
+   - IMU (Inertial Measurement Unit)
 
-<!--
-  ACTION REQUIRED: Replace the content in this section with the technical details
-  for the project. The structure here is presented in advisory capacity to guide
-  the iteration process.
--->
+### Module 3: The AI-Robot Brain (NVIDIA Isaac)
+**Duration**: Weeks 8-10
+**Chapters**: 3
 
-**Language/Version**: [e.g., Python 3.11, Swift 5.9, Rust 1.75 or NEEDS CLARIFICATION]  
-**Primary Dependencies**: [e.g., FastAPI, UIKit, LLVM or NEEDS CLARIFICATION]  
-**Storage**: [if applicable, e.g., PostgreSQL, CoreData, files or N/A]  
-**Testing**: [e.g., pytest, XCTest, cargo test or NEEDS CLARIFICATION]  
-**Target Platform**: [e.g., Linux server, iOS 15+, WASM or NEEDS CLARIFICATION]
-**Project Type**: [single/web/mobile - determines source structure]  
-**Performance Goals**: [domain-specific, e.g., 1000 req/s, 10k lines/sec, 60 fps or NEEDS CLARIFICATION]  
-**Constraints**: [domain-specific, e.g., <200ms p95, <100MB memory, offline-capable or NEEDS CLARIFICATION]  
-**Scale/Scope**: [domain-specific, e.g., 10k users, 1M LOC, 50 screens or NEEDS CLARIFICATION]
+8. NVIDIA Isaac Sim Introduction
+   - Photorealistic simulation
+   - USD (Universal Scene Description)
+   - Synthetic data generation
+   
+9. Isaac ROS and VSLAM
+   - Visual SLAM algorithms
+   - Hardware acceleration
+   - Perception pipelines
+   
+10. Nav2 Path Planning
+    - Navigation stack
+    - Obstacle avoidance
+    - Bipedal locomotion
 
-## Constitution Check
+### Module 4: Vision-Language-Action (VLA)
+**Duration**: Weeks 11-13
+**Chapters**: 3
 
-*GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
+11. Voice-to-Action with Whisper
+    - Speech recognition
+    - Command parsing
+    - Action mapping
+    
+12. Cognitive Planning with LLMs
+    - GPT-4 integration
+    - Natural language to actions
+    - Context understanding
+    
+13. Capstone: Autonomous Humanoid Robot
+    - Complete system integration
+    - Voice command → Navigation → Object manipulation
+    - Real-world deployment
 
-Before merging any chapter, ensure:
+## Development Timeline
 
-- [ ] Minimum 2500 words  
-- [ ] ≥3 academic citations  
-- [ ] ≥1 official documentation link  
-- [ ] IEEE reference formatting  
-- [ ] Diagram included  
-- [ ] Code examples runnable  
-- [ ] Follows module spec  
-- [ ] Reviewed under Spec-Kit workflow  
-- [ ] Reproducible generation steps logged
+### Week 1: Setup & Research (Now)
+- Set up development environment
+- Gather research sources
+- Create spec files
 
-## Project Structure
+### Week 2: Content Generation
+- Generate chapters 1-7
+- Create diagrams
+- Test code examples
 
-### Documentation (this feature)
+### Week 3: Advanced Content
+- Generate chapters 8-13
+- Verify all citations
+- Polish content
 
-```text
-specs/[###-feature]/
-├── plan.md              # This file (/sp.plan command output)
-├── research.md          # Phase 0 output (/sp.plan command)
-├── data-model.md        # Phase 1 output (/sp.plan command)
-├── quickstart.md        # Phase 1 output (/sp.plan command)
-├── contracts/           # Phase 1 output (/sp.plan command)
-└── tasks.md             # Phase 2 output (/sp.tasks command - NOT created by /sp.plan)
-```
+### Week 4: Integration
+- Build RAG chatbot
+- Deploy to GitHub Pages
+- Create demo video
 
-### Source Code (repository root)
-<!--
-  ACTION REQUIRED: Replace the placeholder tree below with the concrete layout
-  for this feature. Delete unused options and expand the chosen structure with
-  real paths (e.g., apps/admin, packages/something). The delivered plan must
-  not include Option labels.
--->
-
-```text
-# [REMOVE IF UNUSED] Option 1: Single project (DEFAULT)
-src/
-├── models/
-├── services/
-├── cli/
-└── lib/
-
-tests/
-├── contract/
-├── integration/
-└── unit/
-
-# [REMOVE IF UNUSED] Option 2: Web application (when "frontend" + "backend" detected)
-backend/
-├── src/
-│   ├── models/
-│   ├── services/
-│   └── api/
-└── tests/
-
-frontend/
-├── src/
-│   ├── components/
-│   ├── pages/
-│   └── services/
-└── tests/
-
-# [REMOVE IF UNUSED] Option 3: Mobile + API (when "iOS/Android" detected)
-api/
-└── [same as backend above]
-
-ios/ or android/
-└── [platform-specific structure: feature modules, UI flows, platform tests]
-```
-
-**Structure Decision**: [Document the selected structure and reference the real
-directories captured above]
-
-## Complexity Tracking
-
-> **Fill ONLY if Constitution Check has violations that must be justified**
-
-| Violation | Why Needed | Simpler Alternative Rejected Because |
-|-----------|------------|-------------------------------------|
-| [e.g., 4th project] | [current need] | [why 3 projects insufficient] |
-| [e.g., Repository pattern] | [specific problem] | [why direct DB access insufficient] |
+## Quality Checkpoints
+- [ ] All chapters have 3+ academic citations
+- [ ] Code examples tested and working
+- [ ] Professional diagrams included
+- [ ] RAG chatbot functional
+- [ ] Book deployed successfully
