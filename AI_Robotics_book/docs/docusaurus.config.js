@@ -11,7 +11,7 @@ const config = {
   favicon: 'img/favicon.ico',
 
   // Set the production url of your site here
-  url: 'https://ai-driven-development.github.io',
+  url: 'https://ai-driven-development.github.i',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
   baseUrl: '/AI_Robotics_book/',
@@ -86,9 +86,23 @@ const config = {
             position: 'left'
           },
           {
-            href: 'https://github.com/ai-driven-development/AI_Robotics_book',
+            href: 'https://github.com/MUKARRAM-ONE/AI-driven-development/tree/main/AI_Robotics_book',
             label: 'GitHub',
             position: 'right',
+          },
+          {
+            label: 'Contact',
+            position: 'right',
+            items: [
+              {
+                label: 'GitHub (repo)',
+                href: 'https://github.com/MUKARRAM-ONE/AI-driven-development',
+              },
+              {
+                label: 'LinkedIn',
+                href: 'https://www.linkedin.com/in/your-linkedin',
+              },
+            ],
           },
         ],
       },
@@ -109,12 +123,12 @@ const config = {
             items: [
               {
                 label: 'GitHub',
-                href: 'https://github.com/ai-driven-development/AI_Robotics_book',
+                href: 'https://github.com/MUKARRAM-ONE/AI-driven-development/tree/main/AI_Robotics_book',
               },
             ],
           },
         ],
-        copyright: `Copyright © ${new Date().getFullYear()} AI-Driven Development. Built with Docusaurus.`,
+        copyright: `Copyright © ${new Date().getFullYear()} Created by Mukarram Razzaq Using AI Spec Driven Development. Built with Docusaurus.`,
       },
       prism: {
         theme: lightCodeTheme,

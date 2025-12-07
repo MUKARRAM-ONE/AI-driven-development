@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import clsx from 'clsx';
 import styles from './index.module.css';
 
@@ -16,7 +16,7 @@ export default function Home() {
             <a href="/AI_Robotics_book/docs/01-intro-to-ros2" className={clsx(styles.button, styles.buttonPrimary)}>
               Start Learning →
             </a>
-            <a href="https://github.com/ai-driven-development/AI_Robotics_book" className={clsx(styles.button, styles.buttonSecondary)}>
+            <a href="https://github.com/MUKARRAM-ONE/AI-driven-development/tree/main/AI_Robotics_book" className={clsx(styles.button, styles.buttonSecondary)}>
               View on GitHub
             </a>
           </div>
@@ -112,6 +112,46 @@ export default function Home() {
           Get Started Now
         </a>
       </section>
+
+      {/* Contact Section */}
+      <section className={styles.contact}>
+        <h2>Contact</h2>
+        <p>If you'd like to get in touch, reach out via GitHub or LinkedIn — or send a quick message:</p>
+        <div className={styles.contactButtons}>
+          <a href="https://github.com/MUKARRAM-ONE/AI-driven-development" target="_blank" rel="noreferrer" className={clsx(styles.button, styles.buttonSecondary)}>
+            Contact on GitHub
+          </a>
+          <a href="https://www.linkedin.com/in/your-linkedin" target="_blank" rel="noreferrer" className={clsx(styles.button, styles.buttonSecondary)}>
+            Contact on LinkedIn
+          </a>
+          <button className={clsx(styles.button, styles.buttonPrimary)} onClick={() => setIsOpen(true)}>
+            Send a message
+          </button>
+        </div>
+      </section>
+
+      {/* Contact Modal */}
+      {isOpen && (
+        <div className={styles.modalOverlay} onClick={() => setIsOpen(false)}>
+          <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
+            <h3>Send a message</h3>
+            <label className={styles.label}>Name</label>
+            <input className={styles.input} value={name} onChange={(e) => setName(e.target.value)} />
+            <label className={styles.label}>Email</label>
+            <input className={styles.input} value={email} onChange={(e) => setEmail(e.target.value)} />
+            <label className={styles.label}>Message</label>
+            <textarea className={styles.textarea} value={message} onChange={(e) => setMessage(e.target.value)} />
+            <div style={{display: 'flex', gap: 12, marginTop: 12}}>
+              <button className={clsx(styles.button, styles.buttonPrimary)} onClick={() => {
+                const subject = encodeURIComponent('Contact from AI Robotics site');
+                const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${message}`);
+                window.location.href = `mailto:youremail@example.com?subject=${subject}&body=${body}`;
+              }}>Send Email</button>
+              <button className={clsx(styles.button)} onClick={() => setIsOpen(false)}>Close</button>
+            </div>
+          </div>
+        </div>
+      )}
     </main>
   );
 }
