@@ -9,7 +9,7 @@ const Login = () => {
   const [error, setError] = useState('');
   const [tried, setTried] = useState(false);
   const history = useHistory();
-  const API_URL = 'http://20.197.8.180';
+  const API_URL = 'https://erin-lensless-slushily.ngrok-free.dev';
 
   const handleLogin = async (e) => {
     e.preventDefault();

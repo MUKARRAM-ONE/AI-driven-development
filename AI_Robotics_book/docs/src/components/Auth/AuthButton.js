@@ -7,7 +7,7 @@ const AuthButton = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await fetch('http://20.197.8.180/users/me', {
+        const response = await fetch('https://erin-lensless-slushily.ngrok-free.dev/users/me', {
           credentials: 'include',
         });
         console.log('Auth check response:', response.status);
@@ -29,7 +29,7 @@ const AuthButton = () => {
 
   const handleLogout = async () => {
     try {
-        const response = await fetch('http://20.197.8.180/auth/jwt/logout', {
+        const response = await fetch('https://erin-lensless-slushily.ngrok-free.dev/auth/jwt/logout', {
         method: 'POST',
         credentials: 'include',
       });

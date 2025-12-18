@@ -56,7 +56,7 @@ export default function SearchBar({ navbar = false }) {
     setShowResults(true);
 
     try {
-      const ragApiUrl = siteConfig.customFields.ragApiUrl || 'http://20.197.8.180';
+      const ragApiUrl = siteConfig.customFields.ragApiUrl || 'https://erin-lensless-slushily.ngrok-free.dev';
       const response = await fetch(`${ragApiUrl}/query`, {
         method: 'POST',
         headers: {

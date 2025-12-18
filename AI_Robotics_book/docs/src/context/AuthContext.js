@@ -9,7 +9,7 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await fetch('http://20.197.8.180/users/me', {
+        const response = await fetch('https://erin-lensless-slushily.ngrok-free.dev/users/me', {
           credentials: 'include',
         });
         if (response.ok) {

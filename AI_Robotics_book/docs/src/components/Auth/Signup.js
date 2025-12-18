@@ -11,7 +11,7 @@ const Signup = () => {
   const [success, setSuccess] = useState('');
   const [retries, setRetries] = useState(0);
   const history = useHistory();
-  const API_URL = 'http://20.197.8.180';
+  const API_URL = 'https://erin-lensless-slushily.ngrok-free.dev';
 
   const handleSignup = async (e) => {
     e.preventDefault();
