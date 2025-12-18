@@ -7,8 +7,16 @@ const AuthButton = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
+        const token = localStorage.getItem('access_token');
+        if (!token) {
+          setLoading(false);
+          return;
+        }
+        
         const response = await fetch('https://erin-lensless-slushily.ngrok-free.dev/users/me', {
-          credentials: 'include',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+          },
         });
         console.log('Auth check response:', response.status);
         if (response.ok) {
@@ -17,6 +25,7 @@ const AuthButton = () => {
           setUser(data);
         } else {
           console.log('Not authenticated:', response.status);
+          localStorage.removeItem('access_token');
         }
       } catch (error) {
         console.error('Failed to fetch user', error);
@@ -29,17 +38,25 @@ const AuthButton = () => {
 
   const handleLogout = async () => {
     try {
+        const token = localStorage.getItem('access_token');
         const response = await fetch('https://erin-lensless-slushily.ngrok-free.dev/auth/jwt/logout', {
         method: 'POST',
-        credentials: 'include',
+        headers: token ? {
+          'Authorization': `Bearer ${token}`,
+        } : {},
       });
 
       if (response.ok) {
+        localStorage.removeItem('access_token');
         setUser(null);
         window.location.reload();
       }
     } catch (error) {
       console.error('Logout failed', error);
+      // Clear token anyway
+      localStorage.removeItem('access_token');
+      setUser(null);
+      window.location.reload();
     }
   };
 

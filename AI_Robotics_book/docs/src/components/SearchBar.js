@@ -57,12 +57,19 @@ export default function SearchBar({ navbar = false }) {
 
     try {
       const ragApiUrl = siteConfig.customFields.ragApiUrl || 'https://erin-lensless-slushily.ngrok-free.dev';
+      const token = localStorage.getItem('access_token');
+      
+      const headers = {
+        'Content-Type': 'application/json',
+      };
+      
+      if (token) {
+        headers['Authorization'] = `Bearer ${token}`;
+      }
+      
       const response = await fetch(`${ragApiUrl}/query`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include',
+        headers,
         body: JSON.stringify({ query }),
       });
 

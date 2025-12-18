@@ -28,7 +28,13 @@ const Login = () => {
       });
 
       if (response.ok) {
-        history.push('/AI-driven-development/docs/01-intro-to-ros2');
+        const data = await response.json();
+        // Store the JWT token
+        if (data.access_token) {
+          localStorage.setItem('access_token', data.access_token);
+        }
+        // Reload to fetch user info
+        window.location.href = '/AI-driven-development/docs/01-intro-to-ros2';
       } else {
         let detail = 'Login failed. Please check your credentials.';
         try {

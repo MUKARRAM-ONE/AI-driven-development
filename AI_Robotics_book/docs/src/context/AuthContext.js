@@ -9,12 +9,23 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     const fetchUser = async () => {
       try {
+        const token = localStorage.getItem('access_token');
+        if (!token) {
+          setLoading(false);
+          return;
+        }
+        
         const response = await fetch('https://erin-lensless-slushily.ngrok-free.dev/users/me', {
-          credentials: 'include',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+          },
         });
         if (response.ok) {
           const data = await response.json();
           setUser(data);
+        } else {
+          // Token invalid, clear it
+          localStorage.removeItem('access_token');
         }
       } catch (error) {
         console.error('Failed to fetch user:', error);
