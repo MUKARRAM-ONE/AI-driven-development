@@ -147,6 +147,9 @@ const config = {
         darkTheme: darkCodeTheme,
       },
     }),
+  customFields: {
+    ragApiUrl: 'https://erin-lensless-slushily.ngrok-free.dev',
+  },
 };
 
 module.exports = config;
