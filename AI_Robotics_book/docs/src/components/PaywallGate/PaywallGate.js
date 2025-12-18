@@ -6,6 +6,7 @@ const PaywallGate = ({ children }) => {
   const { user, loading } = useAuth();
   const [scrollPercentage, setScrollPercentage] = useState(0);
   const [showPaywall, setShowPaywall] = useState(false);
+  const [guestContinue, setGuestContinue] = useState(false);
 
   useEffect(() => {
     const path = typeof window !== 'undefined' ? window.location.pathname : '';
@@ -24,8 +25,8 @@ const PaywallGate = ({ children }) => {
       const scrolled = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
       setScrollPercentage(scrolled);
 
-      // Lock paywall after 40% scroll for unauthenticated users (non-dismissable)
-      if (scrolled > 40 && !user) {
+      // Lock paywall after 40% scroll for unauthenticated users (dismissable for guests)
+      if (scrolled > 40 && !user && !guestContinue) {
         setShowPaywall(true);
       }
     };
@@ -36,7 +37,7 @@ const PaywallGate = ({ children }) => {
     handleScroll();
 
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [user]);
+  }, [user, guestContinue]);
 
   // Disable background scroll when paywall is active and user not authenticated
   useEffect(() => {
@@ -64,6 +65,11 @@ const PaywallGate = ({ children }) => {
     window.location.href = '/AI-driven-development/auth?action=signup';
   };
 
+  const handleContinueGuest = () => {
+    setGuestContinue(true);
+    setShowPaywall(false);
+  };
+
   return (
     <div className={styles.contentWrapper}>
       <div className={`${styles.contentArea} ${showPaywall && !user ? styles.blurred : ''}`}>
@@ -74,8 +80,8 @@ const PaywallGate = ({ children }) => {
         <div className={styles.paywallOverlay}>
           <div className={styles.paywallModal}>
             <div className={styles.paywallContent}>
-              <h2>Continue Reading</h2>
-              <p>Sign in to unlock full access to this educational content.</p>
+              <h2>You’re reading as a guest</h2>
+              <p>You can keep reading without signing up. Log in or sign up to unlock pro features and upcoming drops (marketing, new content, more).</p>
               
               <div className={styles.authButtons}>
                 <button 
@@ -89,6 +95,12 @@ const PaywallGate = ({ children }) => {
                   onClick={handleSignupClick}
                 >
                   Create Account
+                </button>
+                <button
+                  className={styles.guestBtn}
+                  onClick={handleContinueGuest}
+                >
+                  Continue as guest
                 </button>
               </div>
 

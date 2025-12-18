@@ -19,7 +19,7 @@ def check_env_file():
             print("\n⚠️  IMPORTANT: Edit .env and add your API keys:")
             print("   - QDRANT_URL")
             print("   - QDRANT_API_KEY (if using cloud)")
-            print("   - OPENAI_API_KEY")
+            print("   - GEMINI_API_KEY")
             return False
         else:
             print("❌ .env.example not found!")
@@ -34,7 +34,7 @@ def check_dependencies():
         'uvicorn',
         'dotenv',
         'fastembed',
-        'openai'
+        'google'
     ]
     
     missing = []

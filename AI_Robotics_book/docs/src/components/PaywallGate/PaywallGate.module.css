@@ -112,6 +112,24 @@
   transform: translateY(-2px);
 }
 
+.guestBtn {
+  flex: 1;
+  padding: 14px 20px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 8px;
+  border: 2px dashed #6c6c6c;
+  background-color: #262626;
+  color: #e0e0e0;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.guestBtn:hover {
+  background-color: #2f2f2f;
+  transform: translateY(-2px);
+}
+
 .benefits {
   background: rgba(255, 107, 53, 0.1);
   border-left: 3px solid #ff6b35;

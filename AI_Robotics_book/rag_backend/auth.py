@@ -9,6 +9,9 @@ from fastapi_users.authentication import (
     JWTStrategy,
 )
 from fastapi_users.manager import BaseUserManager, IntegerIDMixin
+from fastapi_users.exceptions import InvalidPasswordException
+from fastapi_users.password import PasswordHelper
+from passlib.context import CryptContext
 
 from database import User, get_user_db
 
@@ -38,6 +41,33 @@ github_oauth_client_secret = os.getenv("GITHUB_OAUTH_CLIENT_SECRET")
 class UserManager(IntegerIDMixin, BaseUserManager[User, int]):
     reset_password_token_secret = SECRET
     verification_token_secret = SECRET
+
+    def __init__(self, user_db):
+        super().__init__(user_db)
+        # Allow passwords longer than bcrypt's 72 byte limit by hashing with
+        # bcrypt_sha256 first, while still accepting existing bcrypt hashes.
+        self.password_helper = PasswordHelper(
+            CryptContext(
+                schemes=["bcrypt_sha256", "bcrypt"],
+                deprecated="auto",
+                bcrypt__rounds=12,
+                bcrypt_sha256__default_rounds=12,
+            )
+        )
+
+    async def validate_password(self, password: str, user: User) -> None:
+        # Enforce a hard limit to avoid passlib bcrypt overflow errors.
+        if len(password.encode("utf-8")) > 256:
+            raise InvalidPasswordException("Password must be at most 256 characters.")
+
+    async def authenticate(self, credentials):
+        try:
+            return await super().authenticate(credentials)
+        except ValueError as exc:
+            # Treat passlib length errors as invalid credentials instead of 500.
+            if "72 bytes" in str(exc):
+                return None
+            raise
 
     async def on_after_register(
         self, user: User, request: Optional[Request] = None

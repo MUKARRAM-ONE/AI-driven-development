@@ -96,8 +96,22 @@ app.include_router(
 
 @app.on_event("startup")
 async def on_startup():
-    # Not needed if you setup a migration system like Alembic
+    # Auto-initialize database
     await create_db_and_tables()
+    print("✅ Database initialized")
+    
+    # Check if Qdrant collection needs ingestion
+    if rag:
+        try:
+            collection_info = rag.qdrant_client.get_collection(rag.collection_name)
+            point_count = collection_info.points_count
+            if point_count == 0:
+                print("⚠️  Qdrant collection is empty. Run 'uv run ingest.py' to populate it.")
+            else:
+                print(f"✅ Qdrant collection ready with {point_count} documents")
+        except Exception as e:
+            print(f"⚠️  Qdrant collection check failed: {e}")
+            print("   Run 'uv run ingest.py' to create and populate the collection.")
 
 
 @app.post("/query")

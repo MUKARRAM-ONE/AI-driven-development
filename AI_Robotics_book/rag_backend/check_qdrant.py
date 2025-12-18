@@ -45,7 +45,7 @@ if not res:
     print('Could not list collections. The API key or URL may be incorrect, or the cluster is unreachable.')
     sys.exit(1)
 
-collections = res.get('collections') if isinstance(res, dict) else None
+collections = res.get('result', {}).get('collections', []) if isinstance(res, dict) else None
 if not collections:
     print('No collections found in response. Raw response:', res)
     sys.exit(1)

@@ -31,7 +31,7 @@ cp .env.example .env
 ```env
 QDRANT_URL=http://localhost:6333
 QDRANT_API_KEY=
-OPENAI_API_KEY=sk-your-key-here
+GEMINI_API_KEY=your-gemini-api-key
 QDRANT_COLLECTION=ai_robotics_docs
 ```
 
@@ -96,7 +96,7 @@ npm start
 
 1. **User query** → Embedded with same model
 2. **Vector search** → Find top-K similar chunks
-3. **LLM generation** → OpenAI creates answer from context
+3. **LLM generation** → Google Gemini creates answer from context
 4. **Return** → Answer + source documents
 
 ---
@@ -109,7 +109,7 @@ rag_backend/
 ├── .env.example      # Template
 ├── requirements.txt  # Python dependencies
 ├── ingest.py         # Document tokenization & embedding
-├── rag_backend.py    # RAG logic with OpenAI
+├── rag_backend.py    # RAG logic with Google Gemini
 ├── server.py         # FastAPI server
 ├── setup_check.py    # Setup validation script
 ├── QUICKSTART.md     # This file
@@ -171,7 +171,7 @@ CHAT_MODEL=gpt-4  # or gpt-3.5-turbo, gpt-4-turbo, etc.
 | Problem | Solution |
 |---------|----------|
 | **"Could not connect to Qdrant"** | Start Qdrant: `docker run -p 6333:6333 qdrant/qdrant` |
-| **"OpenAI API error"** | Check OPENAI_API_KEY in `.env` |
+| **"Gemini API error"** | Check GEMINI_API_KEY in `.env` |
 | **"No results found"** | Run `python ingest.py` first |
 | **"Module not found"** | Run `pip install -r requirements.txt` |
 | **Search bar not visible** | Rebuild docs: `cd ../docs && npm run build` |
@@ -198,7 +198,7 @@ CHAT_MODEL=gpt-4  # or gpt-3.5-turbo, gpt-4-turbo, etc.
 # Set environment variables
 QDRANT_URL=https://your-qdrant-cluster.com
 QDRANT_API_KEY=your-key
-OPENAI_API_KEY=your-key
+GEMINI_API_KEY=your-gemini-key
 SERVER_PORT=8001
 ```
 
@@ -216,7 +216,7 @@ customFields: {
 ## 📚 Additional Resources
 
 - **Qdrant Docs**: https://qdrant.tech/documentation/
-- **OpenAI API**: https://platform.openai.com/docs
+- **Google Gemini API**: https://ai.google.dev/gemini-api/docs
 - **FastEmbed**: https://github.com/qdrant/fastembed
 - **Docusaurus**: https://docusaurus.io
 

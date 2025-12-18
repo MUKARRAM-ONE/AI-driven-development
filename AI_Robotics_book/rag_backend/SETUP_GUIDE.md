@@ -6,9 +6,9 @@ This guide helps you set up and integrate the RAG (Retrieval-Augmented Generatio
 
 The RAG backend provides intelligent search capabilities for the textbook by:
 1. Ingesting documentation content into a vector database (Qdrant)
-2. Embedding text using OpenAI's embedding model
+2. Embedding text using FastEmbed (BAAI/bge-small-en)
 3. Retrieving relevant context for user queries
-4. Generating answers using OpenAI's LLM
+4. Generating answers using Google Gemini
 
 ## Prerequisites
 
@@ -43,10 +43,9 @@ pip install -r requirements.txt
 Create a `.env` file in the `rag_backend` directory:
 
 ```env
-# OpenAI Configuration
-OPENAI_API_KEY=your_openai_api_key_here
-OPENAI_EMBEDDING_MODEL=text-embedding-3-small
-OPENAI_LLM_MODEL=gpt-4-turbo-preview
+# Google Gemini Configuration
+GEMINI_API_KEY=your_gemini_api_key_here
+GEMINI_MODEL=gemini-1.5-flash
 
 # Qdrant Configuration (Cloud)
 QDRANT_URL=https://your-instance.qdrant.io

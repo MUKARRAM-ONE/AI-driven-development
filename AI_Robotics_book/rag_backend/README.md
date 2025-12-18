@@ -1,11 +1,11 @@
-# RAG Backend (Qdrant + OpenAI)
+# RAG Backend (Qdrant + Google Gemini)
 
-This folder contains a minimal Retrieval-Augmented Generation (RAG) backend implementation that indexes your Docusaurus docs into Qdrant Cloud and exposes a simple search API that augments queries with retrieved context and generates answers via OpenAI.
+This folder contains a minimal Retrieval-Augmented Generation (RAG) backend implementation that indexes your Docusaurus docs into Qdrant Cloud and exposes a simple search API that augments queries with retrieved context and generates answers via Google Gemini.
 
 ## Requirements
 
 - A Qdrant Cloud instance (URL + API key)
-- An OpenAI API key (or another embeddings/LLM provider)
+- A Google Gemini API key
 
 ## Quickstart
 
@@ -21,7 +21,7 @@ pip install -r requirements.txt
 
 ```bash
 cp .env.example .env
-# Edit .env and set OPENAI_API_KEY, QDRANT_URL, QDRANT_API_KEY
+# Edit .env and set GEMINI_API_KEY, QDRANT_URL, QDRANT_API_KEY
 ```
 
 3. Ingest docs into Qdrant:
@@ -61,7 +61,7 @@ The RAG backend will enable users to query the textbook content using natural la
 
 -   **Framework**: Potentially LangChain, LlamaIndex, or a custom Python solution.
 -   **Vector Database**: ChromaDB, FAISS, Pinecone, or similar.
--   **LLM Integration**: OpenAI API, Hugging Face models, or local models.
+-   **LLM Integration**: Google Gemini (default), Hugging Face models, or local models.
 -   **API Endpoint**: A simple REST API (e.g., using FastAPI or Flask) to expose the search functionality.
 
 ## Placeholder File

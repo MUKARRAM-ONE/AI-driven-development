@@ -3,12 +3,26 @@ from dotenv import load_dotenv
 from qdrant_client import QdrantClient, models
 import tiktoken
 import hashlib
+import traceback
+
+try:
+    from fastembed import TextEmbedding
+except Exception:
+    TextEmbedding = None
+
+try:
+    import google.generativeai as genai
+except Exception:
+    genai = None
 
 class RAGBackend:
     def __init__(self):
         load_dotenv()
         qdrant_url = os.getenv("QDRANT_URL", ":memory:")
         qdrant_api_key = os.getenv("QDRANT_API_KEY")
+        self.gemini_api_key = os.getenv("GEMINI_API_KEY")
+        self.gemini_model_name = os.getenv("GEMINI_MODEL", "gemini-1.5-flash")
+        self.embed_model_name = os.getenv("EMBED_MODEL", "BAAI/bge-small-en")
         
         # Handle both cloud and local (in-memory) Qdrant
         if qdrant_url == ":memory:":
@@ -22,6 +36,29 @@ class RAGBackend:
         self.collection_name = os.getenv("QDRANT_COLLECTION", "ai_robotics_docs")
         self.top_k = int(os.getenv("TOP_K", "4"))
         self.tokenizer = tiktoken.get_encoding("cl100k_base")
+
+        # Initialize the same embedder used in ingestion so query vectors align with stored vectors
+        self._embedder = None
+        if TextEmbedding is not None:
+            try:
+                self._embedder = TextEmbedding(model_name=self.embed_model_name)
+                print(f"✅ FastEmbed initialized: {self.embed_model_name}")
+            except Exception as e:
+                print(f"⚠️ FastEmbed init failed, falling back to hash vectors: {e}")
+        else:
+            print("⚠️ fastembed not installed; falling back to hash vectors (low quality search)")
+
+        # Optionally initialize Gemini if available and configured
+        self._gemini_model = None
+        if self.gemini_api_key and genai is not None:
+            try:
+                genai.configure(api_key=self.gemini_api_key)
+                self._gemini_model = genai.GenerativeModel(self.gemini_model_name)
+                print(f"✅ Gemini model initialized: {self.gemini_model_name}")
+            except Exception as e:
+                print(f"⚠️ Failed to initialize Gemini model '{self.gemini_model_name}': {e}")
+        elif self.gemini_api_key and genai is None:
+            print("⚠️ google.generativeai not installed; falling back to context truncation.")
         
         # Initialize with sample data if using in-memory
         if qdrant_url == ":memory:":
@@ -104,22 +141,28 @@ class RAGBackend:
             print(f"⚠️ Error initializing sample data: {e}")
 
     def _text_to_vector(self, text: str, dim: int = 384) -> list:
-        """Generate a simple vector from text using hash (for demo purposes)."""
-        # Split text into words and create a simple sparse-like vector
+        """Generate query vector using the real embedder when available; fall back to hash."""
+        if self._embedder is not None:
+            try:
+                # fastembed returns a generator; take the first (and only) embedding
+                for vec in self._embedder.embed([text]):
+                    return list(vec)
+            except Exception as e:
+                print(f"⚠️ FastEmbed embedding failed, falling back to hash vectors: {e}")
+
+        # Fallback: hash-based sparse vector (dims must match collection size)
         words = text.lower().split()
         vector = [0.0] * dim
-        
-        for i, word in enumerate(words):
-            # Use hash to get reproducible values
+
+        for word in words:
             hash_val = int(hashlib.md5(word.encode()).hexdigest(), 16)
             idx = hash_val % dim
             vector[idx] += 1.0 / (len(words) + 1)
-        
-        # Normalize
+
         norm = sum(v**2 for v in vector) ** 0.5
         if norm > 0:
             vector = [v / norm for v in vector]
-        
+
         return vector
 
     def search_and_generate(self, query: str, top_k: int = None) -> dict:
@@ -142,15 +185,32 @@ class RAGBackend:
             }
         
         # Combine the text from the retrieved documents
-        context = " ".join([doc['text'] for doc in retrieved_docs])
-        
-        # Truncate to 100 tokens
+        context = "\n\n".join([doc.get('text', '') for doc in retrieved_docs])
+
+        # If Gemini is configured, use it for generation; otherwise, return truncated context
+        if self._gemini_model is not None:
+            try:
+                prompt = (
+                    "You are a helpful assistant for AI Robotics documentation. Use the provided context to answer the user's question.\n"
+                    "Be concise, accurate, and conversational. Cite relevant sections when helpful. If the answer isn't in the context, say so politely.\n\n"
+                    f"Context:\n{context}\n\n"
+                    f"Question: {query}\n"
+                    "Answer:"
+                )
+                resp = self._gemini_model.generate_content(prompt)
+                answer_text = resp.text if hasattr(resp, 'text') else ""
+                if not answer_text:
+                    raise RuntimeError("Empty response from Gemini")
+                return {"answer": answer_text.strip(), "sources": retrieved_docs}
+            except Exception as e:
+                print(f"⚠️ Gemini generation failed: {e}")
+                traceback.print_exc()
+
+        # Fallback: truncate context tokens to create a short summary-like answer
         tokens = self.tokenizer.encode(context)
         if len(tokens) > 100:
             tokens = tokens[:100]
-        
         answer = self.tokenizer.decode(tokens)
-        
         return {"answer": answer, "sources": retrieved_docs}
 
     def _retrieve_context(self, query: str, top_k: int) -> list[dict]:
@@ -160,13 +220,13 @@ class RAGBackend:
         try:
             query_vector = self._text_to_vector(query)
             
-            search_result = self.qdrant_client.search(
+            search_result = self.qdrant_client.query_points(
                 collection_name=self.collection_name,
-                query_vector=query_vector,
+                query=query_vector,
                 limit=top_k
             )
             
-            retrieved_docs = [hit.payload for hit in search_result]
+            retrieved_docs = [hit.payload for hit in search_result.points]
             return retrieved_docs
         except Exception as e:
             print(f"Error retrieving context: {e}")
