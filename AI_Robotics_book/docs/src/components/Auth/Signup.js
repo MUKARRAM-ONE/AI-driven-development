@@ -92,6 +92,7 @@ const Signup = () => {
               onChange={(e) => setPassword(e.target.value)}
               required
               minLength="8"
+              autoComplete="new-password"
             />
           </div>
           <div className={styles.formGroup}>
@@ -101,6 +102,7 @@ const Signup = () => {
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               required
+              autoComplete="new-password"
             />
           </div>
           <button type="submit" disabled={loading} className={styles.submitBtn}>

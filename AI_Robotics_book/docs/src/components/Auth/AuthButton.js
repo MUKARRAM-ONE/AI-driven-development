@@ -18,13 +18,10 @@ const AuthButton = () => {
             'Authorization': `Bearer ${token}`,
           },
         });
-        console.log('Auth check response:', response.status);
         if (response.ok) {
           const data = await response.json();
-          console.log('User data:', data);
           setUser(data);
         } else {
-          console.log('Not authenticated:', response.status);
           localStorage.removeItem('access_token');
         }
       } catch (error) {
