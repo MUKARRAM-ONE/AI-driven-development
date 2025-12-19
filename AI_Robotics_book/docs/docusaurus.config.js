@@ -148,7 +148,7 @@ const config = {
       },
     }),
   customFields: {
-    ragApiUrl: 'http://my-rag-server.centralindia.cloudapp.azure.com:8001',
+    ragApiUrl: 'https://my-rag-server.centralindia.cloudapp.azure.com',
   },
 };
 

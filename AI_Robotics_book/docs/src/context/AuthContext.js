@@ -15,7 +15,7 @@ export function AuthProvider({ children }) {
           return;
         }
         
-        const response = await fetch('http://my-rag-server.centralindia.cloudapp.azure.com:8001/users/me', {
+        const response = await fetch('https://my-rag-server.centralindia.cloudapp.azure.com/users/me', {
           headers: {
             'Authorization': `Bearer ${token}`,
           },

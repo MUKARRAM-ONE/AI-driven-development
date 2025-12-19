@@ -9,7 +9,7 @@ const Login = () => {
   const [error, setError] = useState('');
   const [tried, setTried] = useState(false);
   const history = useHistory();
-  const API_URL = 'http://my-rag-server.centralindia.cloudapp.azure.com:8001';
+  const API_URL = 'https://my-rag-server.centralindia.cloudapp.azure.com';
 
   const handleLogin = async (e) => {
     e.preventDefault();
